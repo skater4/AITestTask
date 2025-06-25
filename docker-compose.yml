@@ -1,0 +1,22 @@
+services:
+  php:
+    restart: always
+    build:
+      context: ./
+      dockerfile: ./docker/php/Dockerfile
+    ports:
+      - "8888:8000"
+      - "6001:6001"
+    volumes:
+      - ./src:/var/www/html
+
+  nginx:
+    restart: always
+    build:
+      context: ./docker/nginx
+    ports:
+      - "80:80"
+    links:
+      - php:fpm
+    volumes:
+      - ./src:/var/www/html
